@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ProGen : MonoBehaviour {
+	public GameObject brick;
+
+	private int twocolback;
+	private int onecolback;
 
 	// Use this for initialization
 	void Start () {
@@ -13,6 +17,28 @@ public class ProGen : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public void displayNextCol(int[] variancechances, Int32 seed) {
+		int height = capHeight(getNextHeight(twocolback, onecolback, variancechances, seed));
+
+		twocolback = onecolback;
+		onecolback = height;
+
+		displayBlockCol(height);
+	}
+
+	private void displayBlockCol(int height) {
+		int blockheight = 0; //TODO: Set this to the actual block height
+
+		int screenbottom = Screen.height / 2;
+
+		int lasty = screenbottom;
+
+		for(int i = 0; i < height; i++) {
+			Instantiate(brick, new Vector3(colx, lasty - blockheight), Quaternion.identity);
+			lasty -= blockheight;
+		}
 	}
 
 	private int capHeight(int height) {
